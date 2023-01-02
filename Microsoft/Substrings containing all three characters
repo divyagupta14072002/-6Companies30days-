@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int atmost(string s,int n,int k){
+        int i=0,j=0,cnt=0;
+        unordered_map<char,int>mp;
+        while(j<n){
+            mp[s[j]]++;
+            while(mp.size()>k){
+                mp[s[i]]--;
+                if(mp[s[i]]==0) mp.erase(s[i]);
+                i++;
+            }
+            cnt+=j-i+1;
+            j++;
+        }
+        return cnt;
+    }
+    int numberOfSubstrings(string s) {
+        long long int n=s.size();
+        return (n*(n+1))/2-atmost(s,n,2);
+    }
+};
