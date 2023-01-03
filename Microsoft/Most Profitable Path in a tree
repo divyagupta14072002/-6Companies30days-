@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>>adj;
+    vector<int>distance;
+    int node;
+    int dfs(int u,int parent,int depth,vector<int>&amount){
+        int sum=0;
+        if(u==node) distance[u]=0;
+        else distance[u]=amount.size();
+        int maxi=INT_MIN;
+        for(auto it:adj[u]){
+            if(it==parent) continue;
+            maxi=max(maxi,dfs(it,u,depth+1,amount));
+            distance[u]=min(distance[u],distance[it]+1);
+        }
+        if(distance[u]>depth) sum+=amount[u];
+        else if(distance[u]==depth) sum+=amount[u]/2;
+        if(maxi==INT_MIN) return sum;
+        else return sum+maxi;
+    }
+    int mostProfitablePath(vector<vector<int>>& edges, int bob, vector<int>& amount) {
+        int n=amount.size();
+        node=bob;
+        adj.resize(n,vector<int>());
+        for(auto &it:edges){
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        distance.resize(n);
+        return dfs(0,0,0,amount);
+    }
+};
