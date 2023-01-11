@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool check(string s1,string s2){
+        int i=0,j=0;
+        if(s1.size()<s2.size()) return false;
+        while(i<s1.size() && j<s2.size()){
+            if(s1[i]==s2[j]) j++;
+            i++;
+        }
+        if(j==s2.size()) return true;
+        return false;
+    }
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int cnt=0;
+        unordered_map<string,int>mp;
+        for(auto it:words){
+            if(mp.find(it)!=mp.end()) cnt+=mp[it];
+            else{
+                mp[it]=check(s,it);
+                cnt+=mp[it];
+            }
+        }
+        return cnt;
+    }
+};
