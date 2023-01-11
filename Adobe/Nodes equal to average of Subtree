@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int count(TreeNode *root){
+        if(root==NULL) return 0;
+        return 1+count(root->left)+count(root->right);
+    }
+    int sum(TreeNode *root){
+        if(root==NULL) return 0;
+        return root->val+sum(root->left)+sum(root->right);
+    }
+    int averageOfSubtree(TreeNode* root) {
+        if(root==NULL) return 0;
+        int ans=averageOfSubtree(root->left)+averageOfSubtree(root->right);
+        if(sum(root)/count(root)==root->val) return ans+1;
+        return ans;
+    }
+};
