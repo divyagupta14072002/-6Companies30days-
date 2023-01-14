@@ -1,0 +1,42 @@
+class StockPrice {
+public:
+    unordered_map<int,int>mp;
+    priority_queue<pair<int,int>>maxi;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>mini;
+    int curTime=0,curPrice=0;
+    StockPrice() { 
+    }
+    
+    void update(int timestamp, int price) {
+        mp[timestamp]=price;
+        maxi.push({price,timestamp});
+        mini.push({price,timestamp});
+        if(timestamp>=curTime){
+            curTime=timestamp;
+            curPrice=price;
+        }
+        while(mp[maxi.top().second]!=maxi.top().first) maxi.pop();
+        while(mp[mini.top().second]!=mini.top().first) mini.pop();
+    }
+    
+    int current() {
+        return curPrice;
+    }
+    
+    int maximum() {
+        return maxi.top().first;
+    }
+    
+    int minimum() {
+        return mini.top().first;
+    }
+};
+
+/**
+ * Your StockPrice object will be instantiated and called as such:
+ * StockPrice* obj = new StockPrice();
+ * obj->update(timestamp,price);
+ * int param_2 = obj->current();
+ * int param_3 = obj->maximum();
+ * int param_4 = obj->minimum();
+ */
