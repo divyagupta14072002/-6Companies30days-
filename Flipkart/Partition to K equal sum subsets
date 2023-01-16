@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool subsetSum(int ind,int sum,int k,vector<int>&nums,vector<int>&vis,int target){
+        if(k==1) return true;
+        if(ind>=nums.size()) return false;
+        if(sum==target) return subsetSum(0,0,k-1,nums,vis,target);
+        for(int i=ind;i<nums.size();i++){
+            if(vis[i] || sum+nums[i]>target) continue;
+            vis[i]=true;
+            if(subsetSum(i+1,sum+nums[i],k,nums,vis,target)) return true;
+            vis[i]=false;
+        }
+        return false;
+    }
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int n=nums.size();
+        int sum=0;
+        for(int i=0;i<n;i++) sum+=nums[i];
+        if(sum%k!=0) return false;
+        sum=sum/k;
+        vector<int>vis(n,false);
+        return subsetSum(0,0,k,nums,vis,sum);
+    }
+};
