@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void solve(string s,string str,vector<string>&ans,int ind,int n){
+        if(ind==s.size() && n==4){
+            str.pop_back();
+            ans.push_back(str);
+            return;
+        }
+        if(ind==s.size() || n==4) return;
+        string temp;
+        for(int i=ind;i<s.size();i++){
+            temp.push_back(s[i]);
+            if(temp.size()==2 && temp[0]=='0') return;
+            if(temp.size()>3 || stoi(temp)>255) return;
+            str.push_back(s[i]);
+            str.push_back('.');
+            solve(s,str,ans,i+1,n+1);
+            str.pop_back();
+        }
+    }
+    vector<string> restoreIpAddresses(string s) {
+        vector<string>ans;
+        solve(s,"",ans,0,0);
+        return ans;
+    }
+};
