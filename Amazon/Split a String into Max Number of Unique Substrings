@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void solve(int ind,vector<string>&str,int &ans,string s,unordered_set<string>&st){
+        if(ind==s.size()){
+            int n=str.size();
+            ans=max(ans,n);
+            return;
+        }
+        string temp="";
+        for(int i=ind;i<s.size();i++){
+            temp.push_back(s[i]);
+            if(!st.count(temp)){
+                str.push_back(temp);
+                st.insert(temp);
+                solve(i+1,str,ans,s,st);
+                st.erase(temp);
+                str.pop_back();
+            }
+        }
+    }
+    int maxUniqueSplit(string s) {
+        unordered_set<string>st;
+        vector<string>str;
+        int ans=1;
+        solve(0,str,ans,s,st);
+        return ans;
+    }
+};
