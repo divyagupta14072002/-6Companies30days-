@@ -1,0 +1,18 @@
+#define mod 1000000007;
+class Solution {
+public:
+    int solve(int start,int end,int k,vector<vector<int>>&dp){
+        if(k==0){
+            if(start==end) return 1;
+            return 0;
+        }
+        if(dp[start][k]!=-1) return dp[start][k];
+        return dp[start][k]=(solve(start-1,end,k-1,dp)+solve(start+1,end,k-1,dp))%mod;
+    }
+    int numberOfWays(int startPos, int endPos, int k) {
+        startPos+=1200;
+        endPos+=1200;
+        vector<vector<int>>dp(4000,vector<int>(k+1,-1));
+        return solve(startPos,endPos,k,dp);
+    }
+};
